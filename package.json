@@ -1,0 +1,43 @@
+{
+  "name": "fantasy-profunctor",
+  "description": "Profunctor.",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/fantasyland/fantasy-profunctor.git"
+  },
+  "keywords": [
+    "fantasyland",
+    "profunctor",
+    "functors"
+  ],
+  "author": "Simon Richardson",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/fantasyland/fantasy-profunctor/issues"
+  },
+  "dependencies": {
+    "daggy": "^0.x.x",
+    "fantasy-eithers": "^0.x.x",
+    "fantasy-options": "^0.x.x",
+    "fantasy-combinators": "^0.x.x",
+    "fantasy-tuples": "^0.x.x"
+  },
+  "devDependencies": {
+    "grunt-cli": "0.1.9",
+    "grunt": "0.4.x",
+    "grunt-contrib-jshint": "0.6.x",
+    "grunt-contrib-nodeunit": "0.2.0",
+    "fantasy-check": "git+https://github.com/fantasyland/fantasy-check.git",
+    "fantasy-helpers": "^0.x.x",
+    "fantasy-identities": "git+https://github.com/fantasyland/fantasy-identities.git"
+  },
+  "scripts": {
+    "test": "$(npm bin)/nodeunit test.js"
+  },
+  "scripts": {
+      "test": "grunt"
+  },
+  "files": ["fantasy-profunctor.js", "src/*.js"],
+  "main": "fantasy-profunctor.js",
+  "version": "0.0.1"
+}
