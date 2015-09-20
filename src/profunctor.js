@@ -1,21 +1,27 @@
-var combinators = require('fantasy-combinators'),
-    identity    = combinators.identity;
+var daggy = require('daggy'),
 
-function lmap(f, x) {
-    return x.dimap(f, identity);
+    combinators = require('fantasy-combinators'),
+
+    compose  = combinators.compose,
+    identity = combinators.identity,
+
+    Profunctor = daggy.tagged('f');
+
+Profunctor.prototype.dimap = function(g, h) {
+    return compose(h)(this.f)(g);
+};
+
+Profunctor.prototype.lmap = function(f) {
+    return this.dimap(f, identity);
 }
 
-function rmap(f, x) {
-    return x.dimap(identity, f);
+Profunctor.prototype.rmap = function(f) {
+    return this.dimap(identity, f);
 }
 
-function arr(f, x) {
-    return rmap(f, x);
+Profunctor.prototype.arr = function(f) {
+    return this.rmap(f);
 }
 
 if (typeof module != 'undefined')
-  module.exports = {
-    lmap: lmap,
-    rmap: rmap,
-    arr : arr
-  };
+  module.exports = Profunctor;
