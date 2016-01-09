@@ -1,12 +1,7 @@
-var Choice     = require('./src/choice'),
-    Profunctor = require('./src/profunctor'),
-    Star       = require('./src/star'),
-    Strong     = require('./src/strong');
+const Choice     = require('./src/choice');
+const Profunctor = require('./src/profunctor');
+const Star       = require('./src/star');
+const Strong     = require('./src/strong');
 
 if (typeof module != 'undefined')
-    module.exports = {
-        Choice    : Choice,
-        Profunctor: Profunctor,
-        Star      : Star,
-        Strong    : Strong
-    };
+    module.exports = { Choice, Profunctor, Star, Strong };

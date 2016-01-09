@@ -1,60 +1,43 @@
-var daggy = require('daggy'),
-    combinators = require('fantasy-combinators'),
+'use strict';
 
-    Either = require('fantasy-eithers'),
-    Tuple2 = require('fantasy-tuples').Tuple2,
+const daggy = require('daggy');
+const {compose} = require('fantasy-combinators');
+const {Tuple} = require('fantasy-tuples');
+const Either = require('fantasy-eithers');
 
-    compose  = combinators.compose,
-
-    Star = daggy.tagged('f');
+const Star = daggy.tagged('f');
 
 Star.prototype.run = function(x) {
     return this.f(x);
 };
 
 Star.prototype.diamp = function(f, g) {
-    return Star(compose(this.f)(f));
+    return Star(compose(compose(f)(this.f))(g.map));
 };
 
 Star.prototype.first = function() {
-    var self = this;
-    return Star(function(t) {
-        return Tuple2(self.f(t._1), t_2);
-    });
+    return Star((t) => Tuple(this.f(t._1), t_2));
 };
 
 Star.prototype.second = function() {
-    var self = this;
-    return Star(function(t) {
-        return Tuple2(t._1, self.f(t._2));
-    });
+    return Star((t) => Tuple(t._1, this.f(t._2)));
 };
 
 Star.prototype.left = function() {
-    var self = this;
-    return Star(function(x) {
-        return x.cata({
-            Left: function(y) {
-                return Either.Left(self.f(y));
-            },
-            Right: function(y) {
-                return Either.Right(y);
-            }
-        });
+    return Star((x) => {
+        return x.fold(
+            (y) => Either.Left(this.f(y)),
+            (y) => Either.Right(y)
+        );
     });
 };
 
 Star.prototype.right = function() {
-    var self = this;
-    return Star(function(x) {
-        return x.cata({
-            Left: function(y) {
-                return Either.Left(y);
-            },
-            Right: function(y) {
-                return Either.Right(self.f(y));
-            }
-        });
+    return Star((x) => {
+        return x.fold(
+            (y) => Either.Left(y),
+            (y) => Either.Right(this.f(y))
+        );
     });
 };
 

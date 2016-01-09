@@ -1,33 +1,28 @@
-var daggy = require('daggy'),
-    combinators = require('fantasy-combinators'),
+'use strict';
 
-    Either = require('fantasy-eithers'),
-    Tuple2 = require('fantasy-tuples').Tuple2,
+const daggy = require('daggy');
+const {compose, identity} = require('fantasy-combinators');
 
-    identity = combinators.identity,
-    compose  = combinators.compose,
-    
-    Strong = daggy.tagged('f');
+const Either = require('fantasy-eithers');
+const {Tuple} = require('fantasy-tuples');
 
-Strong.prototype.first = function() {
-    return Tuple2(this.f(x._1), x._2);
+const Strong = daggy.tagged('f');
+
+Strong.prototype.first = function(x) {
+    return Tuple(this.f(x._1), x._2);
 };
 
-Strong.prototype.second = function() {
-    return this.f.map;
+Strong.prototype.second = function(x) {
+    return x.map(this.f);
 };
 
-Strong.and = function(l, r) {
-    return compose(l.first())(r.second());
+Strong.andThen = function(x) {
+    return compose(x.first)(this.second);
 };
 
-Strong.or = function(l, r) {
-    var split = function(x) {
-        return x.dimap(identity, function(x) {
-            return Tuple2(x, x);
-        });
-    };
-    return compose(split)(String.and(l, r));
+Strong.or = function(x) {
+    const split = (x) => x.dimap(identity, (x) => Tuple(x, x));
+    return compose(split)(Strong.andThen(l, r));
 };
 
 if (typeof module != 'undefined')

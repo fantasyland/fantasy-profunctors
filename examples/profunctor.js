@@ -1,14 +1,7 @@
-var profunctor = require('../fantasy-profunctors'),
-    combinators = require('fantasy-combinators'),
+'use strict';
 
-    identity = combinators.identity,
+const {Profunctor} = require('../fantasy-profunctors');
+const {identity} = require('fantasy-combinators');
 
-    Profunctor = profunctor.Profunctor;
-
-(function() {
-    var p = Profunctor(function(x) {
-        return x;
-    });
-
-    console.log(p.dimap(identity, identity)(1));
-})();
+const p = Profunctor(identity);
+console.log(p.dimap(identity, identity)(1));
