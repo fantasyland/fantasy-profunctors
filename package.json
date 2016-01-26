@@ -1,5 +1,5 @@
 {
-  "name": "fantasy-profunctor",
+  "name": "fantasy-profunctors",
   "description": "Profunctor.",
   "repository": {
     "type": "git",
@@ -31,7 +31,7 @@
   "scripts": {
       "test": "node --harmony_destructuring node_modules/.bin/nodeunit test/*.js"
   },
-  "files": ["fantasy-profunctor.js", "src/*.js"],
-  "main": "fantasy-profunctor.js",
+  "files": ["fantasy-profunctors.js", "src/*.js"],
+  "main": "fantasy-profunctors.js",
   "version": "0.0.1"
 }
