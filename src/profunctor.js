@@ -20,5 +20,4 @@ Profunctor.prototype.arr = function(f) {
     return this.rmap(f);
 };
 
-if (typeof module != 'undefined')
-  module.exports = Profunctor;
+module.exports = Profunctor;

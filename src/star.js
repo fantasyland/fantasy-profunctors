@@ -41,5 +41,4 @@ Star.prototype.right = function() {
     });
 };
 
-if (typeof module != 'undefined')
-  module.exports = Star;
+module.exports = Star;

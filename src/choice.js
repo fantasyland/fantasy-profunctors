@@ -26,5 +26,4 @@ Choice.or = (l, r) => {
     return compose(Choice.and(l, r))(join);
 };
 
-if (typeof module != 'undefined')
-  module.exports = Choice;
+module.exports = Choice;

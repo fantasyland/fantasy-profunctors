@@ -25,5 +25,4 @@ Strong.or = function(x) {
     return compose(split)(Strong.andThen(l, r));
 };
 
-if (typeof module != 'undefined')
-  module.exports = Strong;
+module.exports = Strong;
