@@ -4,26 +4,26 @@ const daggy = require('daggy');
 const {identity, compose} = require('fantasy-combinators');
 
 const Either = require('fantasy-eithers');
-const Choice = daggy.tagged('f');
+const Choice = daggy.tagged('x');
 
 Choice.prototype.left = function() {
-    return x.cata({
-        Left: (a) => Either.Left(this.f(a)),
-        Right: Either.Right
-    });
+    return x => x.bimap(this.x, identity);
 };
 
 Choice.prototype.right = function() {
-    return this.f.map;
+    return x => x.bimap(identity, this.x);
 };
 
-Choice.andThen = (l, r) => {
-    return compose(l.left)(r.right);
+Choice.from = (l, r) => {
+    const left = Choice(l).left();
+    const right = Choice(r).right();
+    return compose(left)(right);
 };
 
-Choice.or = (l, r) => {
-    const join = (x) => x.fold(identity, identity).dimap(identity, identity);
-    return compose(Choice.and(l, r))(join);
+Choice.join = (l, r) => {
+    const choice = Choice.from(l, r);
+    const profunctor = Profunctor(identity);
+    return compose(choice)(profunctor.lmap(x => x.fold(identity, identity)))
 };
 
 module.exports = Choice;
