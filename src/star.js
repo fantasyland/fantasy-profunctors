@@ -3,14 +3,24 @@
 const {tagged} = require('daggy');
 const {compose} = require('fantasy-combinators');
 const {Tuple} = require('fantasy-tuples');
-const Either = require('fantasy-eithers');
+const {map} = require('./profunctor');
+
+const Either =  require('fantasy-eithers');
 
 const Star = P => {
 
     const Star = tagged('run');
 
-    Star.prototype.diamp = function(f, g) {
-        return Star(x => this.s(f(x)).map(g));
+    Star.prototype.dimap = function(f, g) {
+        return Star(map(g, compose(this.run)(f)));
+    };
+
+    Star.prototype.lmap = function(f) {
+        return Star(compose(this.run)(f));
+    };
+
+    Star.prototype.map = function(f) {
+        return Star(map(f, this.run));
     };
 
     Star.prototype.first = function() {
@@ -33,10 +43,6 @@ const Star = P => {
             a => P.of(Either.Left(a)),
             a => this.run(a).map(Either.Right)
         ));
-    };
-
-    Star.prototype.wander = function(t) {
-        return Star(a => t(P.of, this.run, a));
     };
 
     return Star;

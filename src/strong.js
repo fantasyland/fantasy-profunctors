@@ -2,30 +2,20 @@
 
 const {tagged} = require('daggy');
 const {compose, identity} = require('fantasy-combinators');
+const {map} = require('./profunctor');
 
-const Either = require('fantasy-eithers');
 const {Tuple} = require('fantasy-tuples');
 
-const Strong = tagged('p');
+const first = p => t => Tuple(p(t._1), t._2);
 
-Strong.prototype.first = function() {
-    return t => Tuple(this.p(t._1), t._2);
-};
+const second = p => t => t.map(p);
 
-Strong.prototype.second = function() {
-    return t => this.p.map(t);
-};
+const both = (x, y) => compose(first(x), second(y));
 
-Strong.both = (x, y) => {
-    const first = Strong(x).first();
-    const right = Strong(y).second();
-    return compose(first)(second);
-};
+const split = (l, r) => map(a => Tuple(a, a), both(l, r));
 
-Strong.split = (l, r) => {
-    const profunctor = Profunctor(identity);
-    const strong = both(l, r);
-    return compose(profunctor.map(x => Tuple(x, x)))(strong);
-};
-
-module.exports = Strong;
+module.exports = { first
+                 , second
+                 , both
+                 , split
+                 };

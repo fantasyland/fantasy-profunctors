@@ -1,6 +1,15 @@
-const Choice     = require('./src/choice');
-const Profunctor = require('./src/profunctor');
-const Star       = require('./src/star');
-const Strong     = require('./src/strong');
+const choice = require('./src/choice');
+const profunctor = require('./src/profunctor');
+const strong = require('./src/strong');
+const wander = require('./src/wander');
 
-module.exports = { Choice, Profunctor, Star, Strong };
+const Star = require('./src/star');
+const Tagged = require('./src/tagged');
+
+const {extend} = require('fantasy-helpers');
+
+const object = { Star
+               , Tagged
+               }; 
+
+module.exports = extend(extend(extend(object, choice), profunctor), strong);
