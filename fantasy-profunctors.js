@@ -12,4 +12,9 @@ const object = { Star
                , Tagged
                }; 
 
-module.exports = extend(extend(extend(object, choice), profunctor), strong);
+function merge(obj) {
+    const go = (x, y) => y.length < 1 ? x : extend(x, go(y[0], y.slice(1)));
+    return go(obj, [].slice.call(arguments, 1));
+}
+
+module.exports = merge(object, choice, profunctor, strong);

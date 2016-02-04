@@ -21,7 +21,8 @@
     "fantasy-helpers": "0.x.x",
     "fantasy-combinators": "0.x.x",
     "fantasy-identities": "git+https://github.com/fantasyland/fantasy-identities.git",
-    "fantasy-tuples": "git+https://github.com/fantasyland/fantasy-tuples.git"
+    "fantasy-tuples": "git+https://github.com/fantasyland/fantasy-tuples.git",
+    "fantasy-monoids": "git+https://github.com/fantasyland/fantasy-monoids.git"
   },
   "devDependencies": {
     "nodeunit": "0.9.x",

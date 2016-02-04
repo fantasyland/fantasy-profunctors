@@ -1,18 +1,29 @@
 'use strict';
 
-const {tagged} = require('daggy');
-const {compose, identity} = require('fantasy-combinators');
-const {map} = require('./profunctor');
+const { compose, identity } = require('fantasy-combinators');
+const { map } = require('fantasy-land');
+const { curry, isFunction } = require('fantasy-helpers');
+const { Tuple } = require('fantasy-tuples');
 
-const {Tuple} = require('fantasy-tuples');
+const { map: mapʹ } = require('./profunctor');
 
-const first = p => t => Tuple(p(t._1), t._2);
+// Function combinators
 
-const second = p => t => t.map(p);
+const first = x => {
+    return isFunction(x.first) 
+         ? x.first() 
+         : y => Tuple(x(y._1), y._2);
+};
 
-const both = (x, y) => compose(first(x), second(y));
+const second = x => {
+    return isFunction(x.second)
+         ? x.second()
+         : y => y[map](x);
+};
 
-const split = (l, r) => map(a => Tuple(a, a), both(l, r));
+const both = curry((x, y) => compose(first(x), second(y)));
+
+const split = curry((l, r) => compose(mapʹ(a => Tuple(a, a), identity), both(l, r)));
 
 module.exports = { first
                  , second

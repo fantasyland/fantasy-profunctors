@@ -1,14 +1,16 @@
 'use strict';
 
-const {adapters: {nodeunit: λ}} = require('fantasy-check');
-const {isInstanceOf} = require('fantasy-helpers');
+const { adapters: { nodeunit: λ } } = require('fantasy-check');
+const { isInstanceOf } = require('fantasy-helpers');
+const { equals } = require('fantasy-equality');
+const { identity: id, constant } = require('fantasy-combinators');
+
 const environment = require('fantasy-environment');
-const {equals} = require('fantasy-equality');
-const {identity: id, constant} = require('fantasy-combinators');
 
 const Identity = require('fantasy-identities');
 
 const f = require('fantasy-land/laws/functor');
+const l = require('fantasy-land/laws/lmap');
 const p = require('fantasy-land/laws/profunctor');
 
 const {Star} = require('../fantasy-profunctors');
@@ -24,6 +26,10 @@ const λʹ = λ.envAppend(env);
 exports.functor = {
     'identity': λʹ.law(f.identity)(x => Starʹ(constant(x))),
     'composition': λʹ.law(f.composition)(x => Starʹ(constant(x)))
+};
+
+exports.lmap = {
+    'composition': λʹ.law(l.composition)(x => Starʹ(constant(x)))
 };
 
 exports.profunctor = {

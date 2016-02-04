@@ -1,11 +1,13 @@
 'use strict';
 
-const {tagged} = require('daggy');
+const { tagged } = require('daggy');
+const { dimap } = require('fantasy-land');
+
 const Either = require('fantasy-eithers');
 
 const Tagged = tagged('x');
 
-Tagged.prototype.dimap = function(f, g) {
+Tagged.prototype[dimap] = function(f, g) {
     return Tagged(g(this.x));
 };
 
