@@ -1,29 +1,21 @@
 'use strict';
 
-const daggy = require('daggy');
 const {identity, compose} = require('fantasy-combinators');
+const {lmap} = require('./profunctor');
 
-const Either = require('fantasy-eithers');
-const Choice = daggy.tagged('f');
+const left = f => x => x.bimap(f, identity);
 
-Choice.prototype.left = function() {
-    return x.cata({
-        Left: (a) => Either.Left(this.f(a)),
-        Right: Either.Right
-    });
+const right = f => x => x.bimap(identity, this.x);
+
+const choice = (l, r) => compose(left(l))(right(r));
+
+const join = (l, r) => {
+    const map = x => x.fold(identity, identity);
+    return compose(choice(l, r))(lmap(map, identity));
 };
 
-Choice.prototype.right = function() {
-    return this.f.map;
-};
-
-Choice.andThen = (l, r) => {
-    return compose(l.left)(r.right);
-};
-
-Choice.or = (l, r) => {
-    const join = (x) => x.fold(identity, identity).dimap(identity, identity);
-    return compose(Choice.and(l, r))(join);
-};
-
-module.exports = Choice;
+module.exports = { left
+                 , right
+                 , choice
+                 , join
+                 };

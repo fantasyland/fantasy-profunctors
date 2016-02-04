@@ -16,17 +16,20 @@
     "url": "https://github.com/fantasyland/fantasy-profunctor/issues"
   },
   "dependencies": {
-    "daggy": "^0.x.x",
-    "fantasy-eithers": "^0.x.x",
-    "fantasy-options": "^0.x.x",
-    "fantasy-combinators": "^0.x.x",
+    "daggy": "0.x.x",
+    "fantasy-land": "git+https://github.com/fantasyland/fantasy-land.git#profunctor",
+    "fantasy-helpers": "0.x.x",
+    "fantasy-combinators": "0.x.x",
+    "fantasy-identities": "git+https://github.com/fantasyland/fantasy-identities.git",
     "fantasy-tuples": "git+https://github.com/fantasyland/fantasy-tuples.git"
   },
   "devDependencies": {
     "nodeunit": "0.9.x",
     "fantasy-check": "git+https://github.com/fantasyland/fantasy-check.git",
-    "fantasy-helpers": "^0.x.x",
-    "fantasy-identities": "git+https://github.com/fantasyland/fantasy-identities.git"
+    "fantasy-options": "0.x.x",
+    "fantasy-eithers": "0.x.x",
+    "fantasy-equality": "0.x.x",
+    "fantasy-environment": "0.0.x"
   },
   "scripts": {
       "test": "node --harmony_destructuring node_modules/.bin/nodeunit test/*.js"

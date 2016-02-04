@@ -1,23 +1,33 @@
 'use strict';
 
-const daggy = require('daggy');
-const {compose, identity} = require('fantasy-combinators');
-const Profunctor = daggy.tagged('f');
+const {tagged} = require('daggy');
+const {identity} = require('fantasy-combinators');
 
-Profunctor.prototype.dimap = function(g, h) {
-    return compose(h)(this.f)(g);
+// Function combinators
+
+const dimap = (g, h, f) => a => h(f(g(a)));
+
+const lmap = (g, f) => a => f(g(a));
+
+const map = (g, f) => a => g(f(a));
+
+const arr = f => map(f, identity);
+
+// Function wrapper
+
+const Profunctor = tagged('f');
+
+Profunctor.prototype.dimap = function(f, g) {
+    return Profunctor(dimap(f, g, this.f));
 };
 
-Profunctor.prototype.lmap = function(f) {
-    return this.dimap(f, identity);
+Profunctor.prototype.map = function(f) {
+    return Profunctor(map(f, this.f));
 };
 
-Profunctor.prototype.rmap = function(f) {
-    return this.dimap(identity, f);
-};
-
-Profunctor.prototype.arr = function(f) {
-    return this.rmap(f);
-};
-
-module.exports = Profunctor;
+module.exports = { Profunctor
+                 , dimap
+                 , lmap
+                 , map
+                 , arr 
+                 };
