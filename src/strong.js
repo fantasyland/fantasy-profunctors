@@ -21,9 +21,9 @@ const second = x => {
          : y => y[map](x);
 };
 
-const both = curry((x, y) => compose(first(x), second(y)));
+const both = curry((x, y) => compose(first(x))(second(y)));
 
-const split = curry((l, r) => compose(mapʹ(a => Tuple(a, a), identity), both(l, r)));
+const split = curry((l, r) => compose(mapʹ(a => Tuple(a, a), identity))(both(l, r)));
 
 module.exports = { first
                  , second
