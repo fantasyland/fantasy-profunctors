@@ -10,8 +10,8 @@ const { map: mapʹ } = require('./profunctor');
 // Function combinators
 
 const first = x => {
-    return isFunction(x.first) 
-         ? x.first() 
+    return isFunction(x.first)
+         ? x.first()
          : y => Tuple(x(y._1), y._2);
 };
 
@@ -23,7 +23,7 @@ const second = x => {
 
 const both = curry((x, y) => compose(first(x))(second(y)));
 
-const split = curry((l, r) => compose(mapʹ(a => Tuple(a, a), identity))(both(l, r)));
+const split = curry((l, r) => compose(both(l, r))(mapʹ(a => Tuple(a, a), identity)));
 
 module.exports = { first
                  , second
