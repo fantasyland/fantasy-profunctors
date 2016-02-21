@@ -24,7 +24,7 @@ const choice = curry((l, r) => compose(left(l))(right(r)));
 
 const join = curry((l, r) => {
     const map = x => x.fold(identity, identity);
-    return compose(choice(l, r))(lmap(map, identity));
+    return compose(lmap(map, identity))(choice(l, r));
 });
 
 module.exports = { left
